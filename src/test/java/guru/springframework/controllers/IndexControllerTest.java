@@ -20,7 +20,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+/**
+ * Created by jt on 6/17/17.
+ */
 public class IndexControllerTest {
+
     @Mock
     RecipeService recipeService;
 
@@ -46,7 +50,7 @@ public class IndexControllerTest {
     }
 
     @Test
-    public void getIndexPage() {
+    public void getIndexPage() throws Exception {
 
         //given
         Set<Recipe> recipes = new HashSet<>();
@@ -54,14 +58,16 @@ public class IndexControllerTest {
 
         Recipe recipe = new Recipe();
         recipe.setId(1L);
+
         recipes.add(recipe);
 
-        //when
         when(recipeService.getRecipes()).thenReturn(recipes);
 
-        ArgumentCaptor<Set <Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
+        ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 
+        //when
         String viewName = controller.getIndexPage(model);
+
 
         //then
         assertEquals("index", viewName);
@@ -70,4 +76,5 @@ public class IndexControllerTest {
         Set<Recipe> setInController = argumentCaptor.getValue();
         assertEquals(2, setInController.size());
     }
+
 }
